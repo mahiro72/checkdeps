@@ -17,23 +17,31 @@ var Analyzer = &analysis.Analyzer{
 
 type Run struct {
 	gomod string            // go module name
-	deps  map[string]string // pkg dependencies
+	deps  map[string]depsArr // pkg dependencies
 	obs   []string          // observed pkgs
+}
+
+type depsArr []string
+
+func (d depsArr) notIn(pkg string) bool {
+	for _, dep := range d {
+		if dep == pkg {
+			return false
+		}
+	}
+	return true
 }
 
 var r Run
 
 func init() {
 	r.gomod = "a"
-
-	r.deps = map[string]string{
-		"controller": "a/usecase",
+	r.deps = map[string]depsArr{
+		"a/controller": []string{"a/usecase",},
 	}
-
 	r.obs = []string{
 		"a/controller", "a/usecase",
 	}
-
 }
 
 func (r *Run) run(pass *analysis.Pass) (any, error) {
@@ -42,22 +50,19 @@ func (r *Run) run(pass *analysis.Pass) (any, error) {
 
 		for _, i := range f.Imports {
 			p, _ := strconv.Unquote(i.Path.Value)
-			// TODO: errorハンドリング
+			// TODO: error handling
 
-			if !r.skip(p) {
-				if r.deps[pkgName] != p {
-					pass.Reportf(i.Pos(), "error: found bug in dependency import")
-				}
+			if !r.skip(p) && r.deps[pkgName].notIn(p) {
+				pass.Reportf(i.Pos(), "error: found bug in dependency import")
 			}
 		}
 	}
-
 	return nil, nil
 }
 
 // returns pkgName with gomodule name added
 func (r *Run) pkgName(pkg string) string {
-	return r.gomod + pkg
+	return r.gomod + "/" + pkg
 }
 
 // skip if not a observed pkg
