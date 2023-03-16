@@ -3,7 +3,7 @@ package checkdep_test
 import (
 	"testing"
 
-	"checkdep"
+	"github.com/mahiro72/checkdep"
 
 	"github.com/gostaticanalysis/testutil"
 	"golang.org/x/tools/go/analysis/analysistest"

@@ -1,4 +1,4 @@
-module checkdep
+module github.com/mahiro72/checkdep
 
 go 1.20
 

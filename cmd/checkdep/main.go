@@ -1,7 +1,7 @@
 package main
 
 import (
-	"checkdep"
+	"github.com/mahiro72/checkdep"
 
 	"golang.org/x/tools/go/analysis/unitchecker"
 )
