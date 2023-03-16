@@ -27,4 +27,9 @@ func TestAnalyzer(t *testing.T) {
 		t.Setenv("CHECKDEPS_YML", "./testdata/src/a3/checkdeps.yml")
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a3/...")
 	})
+
+	t.Run("usecaseからrepositoryの実態を直接触った場合、エラーが検出される", func(t *testing.T) {
+		t.Setenv("CHECKDEPS_YML", "./testdata/src/a4/checkdeps.yml")
+		analysistest.Run(t, testdata, checkdeps.Analyzer, "a4/...")
+	})
 }
