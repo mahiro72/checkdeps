@@ -4,18 +4,22 @@ checkdeps is check pkg dependencies
 
 ## examples
 
-The error is caught because the usecase should not depend on the controller.
+The error is caught because the usecase should not depend on the repository.
+domain/repository ok.
 
 ```go
 package usecase
 
 import (
-	"a/controller" // want "error: found bug in dependency import"
+	"a4/domain/model"
+	"a4/repository" // want "error: found bug in dependency import"
 )
 
 type A struct {
-	con *controller.A
+	repo repository.A
 }
+
+var _ *model.A = (*model.A)(nil)
 
 ```
 
