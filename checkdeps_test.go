@@ -23,7 +23,8 @@ func TestAnalyzer(t *testing.T) {
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a2/...")
 	})
 
-	// t.Run("3層のアーキテクチャでも依存関係に問題なければ、エラーは発生しない", func(t *testing.T) {
-	// 	analysistest.Run(t, testdata, checkdeps.Analyzer, "a3/...")
-	// })
+	t.Run("3層のアーキテクチャでも依存関係に問題なければ、エラーは発生しない", func(t *testing.T) {
+		t.Setenv("CHECKDEPS_YML", "./testdata/src/a3/checkdeps.yml")
+		analysistest.Run(t, testdata, checkdeps.Analyzer, "a3/...")
+	})
 }

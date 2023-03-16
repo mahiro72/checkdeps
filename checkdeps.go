@@ -1,6 +1,7 @@
 package checkdeps
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -55,8 +56,8 @@ func (r *Run) init() {
 	}
 
 	r.gomod = d.Spec.Module.Name
-	r.deps = newDepsFromYmlLayers(d.Spec.Layers)
-	r.obs = newObsFromYmlObserves(d.Spec.Observes)
+	r.deps = r.newDepsFromYmlLayers(d.Spec.Layers)
+	r.obs = r.newObsFromYmlObserves(d.Spec.Observes)
 }
 
 func (r *Run) run(pass *analysis.Pass) (any, error) {
@@ -69,6 +70,8 @@ func (r *Run) run(pass *analysis.Pass) (any, error) {
 			p, _ := strconv.Unquote(i.Path.Value)
 			// TODO: error handling
 
+			fmt.Println("#######", r.deps[pkgName], p, r.deps[pkgName].notIn(p), !r.skip(p))
+			fmt.Println(r.obs)
 			if !r.skip(p) && r.deps[pkgName].notIn(p) {
 				pass.Reportf(i.Pos(), "error: found bug in dependency import")
 			}
@@ -92,16 +95,26 @@ func (r *Run) skip(pkg string) bool {
 	return true
 }
 
-func newDepsFromYmlLayers(layers map[string][]string) map[string]depsArr {
-	r := make(map[string]depsArr)
+func (r *Run) newDepsFromYmlLayers(layers map[string][]string) map[string]depsArr {
+	ret := make(map[string]depsArr)
 	for layer, deps := range layers {
-		r[layer] = deps
+		ret[r.pkgName(layer)] = r.newDepsFromYmlDeps(deps)
 	}
-	return r
+	return ret
 }
 
-func newObsFromYmlObserves(observes []string) []string {
-	var r []string
-	r = append(r, observes...)
-	return r
+func (r *Run) newDepsFromYmlDeps(deps []string) []string {
+	var ret []string
+	for _, dep := range deps {
+		ret = append(ret, r.pkgName(dep))
+	}
+	return ret
+}
+
+func (r *Run) newObsFromYmlObserves(observes []string) []string {
+	var ret []string
+	for _, obs := range observes {
+		ret = append(ret, r.pkgName(obs))
+	}
+	return ret
 }
