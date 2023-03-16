@@ -2,6 +2,23 @@
 
 checkdep is check pkg dependencies
 
+## examples
+
+The error is caught because the usecase should not depend on the controller.
+
+```go
+package usecase
+
+import (
+	"a/controller" // want "error: found bug in dependency import"
+)
+
+type A struct {
+	con *controller.A
+}
+
+```
+
 
 # install
 
