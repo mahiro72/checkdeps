@@ -1,3 +1,3 @@
 package usecase
 
-type A struct {}
+type A struct{}

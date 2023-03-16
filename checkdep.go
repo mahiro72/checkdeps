@@ -16,9 +16,9 @@ var Analyzer = &analysis.Analyzer{
 }
 
 type Run struct {
-	gomod string            // go module name
+	gomod string             // go module name
 	deps  map[string]depsArr // pkg dependencies
-	obs   []string          // observed pkgs
+	obs   []string           // observed pkgs
 }
 
 type depsArr []string
@@ -37,7 +37,7 @@ var r Run
 func init() {
 	r.gomod = "a"
 	r.deps = map[string]depsArr{
-		"a/controller": []string{"a/usecase",},
+		"a/controller": []string{"a/usecase"},
 	}
 	r.obs = []string{
 		"a/controller", "a/usecase",

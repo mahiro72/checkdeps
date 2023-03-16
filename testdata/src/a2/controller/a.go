@@ -1,3 +1,3 @@
 package controller
 
-type A struct {}
+type A struct{}

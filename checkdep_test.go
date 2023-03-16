@@ -12,7 +12,7 @@ import (
 // TestAnalyzer is a test for Analyzer.
 func TestAnalyzer(t *testing.T) {
 	testdata := testutil.WithModules(t, analysistest.TestData(), nil)
-	t.Run("層の依存関係に問題がない",func(t *testing.T) {
+	t.Run("層の依存関係に問題がない", func(t *testing.T) {
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a/...")
 	})
 
