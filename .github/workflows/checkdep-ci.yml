@@ -21,8 +21,8 @@ jobs:
         go-version: 1.20
 
     # FIXME: buildがこける
-    # - name: build
-    #   run: go build -o main ./cmd/checkdeps
+    - name: build
+      run: go build -o main ./cmd/checkdeps
 
     - name: test
       run: go test -v ./...
