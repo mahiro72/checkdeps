@@ -4,6 +4,6 @@ import (
 	"a3/usecase"
 )
 
-type A struct{
+type A struct {
 	uc *usecase.A
 }

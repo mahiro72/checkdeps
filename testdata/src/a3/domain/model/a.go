@@ -1,3 +1,3 @@
 package model
 
-type A struct {}
+type A struct{}

@@ -1,3 +1,3 @@
 package repository
 
-type A struct {}
+type A struct{}

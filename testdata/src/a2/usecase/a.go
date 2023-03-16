@@ -1,7 +1,7 @@
 package usecase
 
 import (
-	"a/controller" // want "error: found bug in dependency import"
+	"a2/controller" // want "error: found bug in dependency import"
 )
 
 type A struct {

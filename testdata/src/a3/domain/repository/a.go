@@ -1,3 +1,3 @@
 package repository
 
-type A interface {}
+type A interface{}

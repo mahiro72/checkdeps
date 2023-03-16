@@ -1,0 +1,12 @@
+version: "3"
+
+spec:
+  module:
+    name: "a"
+  observes: 
+    - "controller"
+    - "usecase"
+  layers:
+    controller:
+      - "usecase"
+    usecase:

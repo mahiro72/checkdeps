@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"a3/domain/repository"
 	"a3/domain/model"
+	"a3/domain/repository"
 )
 
 type A struct {
@@ -10,4 +10,3 @@ type A struct {
 }
 
 var _ *model.A = (*model.A)(nil)
-
