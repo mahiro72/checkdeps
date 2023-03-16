@@ -10,7 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  checkdep-ci:
+  checkdeps-ci:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -22,7 +22,7 @@ jobs:
 
     # FIXME: buildがこける
     # - name: build
-    #   run: go build -o main ./cmd/checkdep
+    #   run: go build -o main ./cmd/checkdeps
 
     - name: test
       run: go test -v ./...

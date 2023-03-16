@@ -1,6 +1,6 @@
-# checkdep ![Go Documentation](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square) ![Travis](https://img.shields.io/travis/mahiro72/checkdep.svg?style=flat-square) [![Go Report Card](https://goreportcard.com/badge/github.com/mahiro72/checkdep)](https://goreportcard.com/report/github.com/mahiro72/checkdep) [![codecov](https://codecov.io/gh/mahiro72/checkdep/branch/master/graph/badge.svg)](https://codecov.io/gh/mahiro72/checkdep)
+# checkdeps ![Go Documentation](http://img.shields.io/badge/go-documentation-blue.svg?style=flat-square) ![Travis](https://img.shields.io/travis/mahiro72/checkdeps.svg?style=flat-square) [![Go Report Card](https://goreportcard.com/badge/github.com/mahiro72/checkdeps)](https://goreportcard.com/report/github.com/mahiro72/checkdeps) [![codecov](https://codecov.io/gh/mahiro72/checkdeps/branch/master/graph/badge.svg)](https://codecov.io/gh/mahiro72/checkdeps)
 
-checkdep is check pkg dependencies
+checkdeps is check pkg dependencies
 
 ## examples
 
@@ -23,11 +23,11 @@ type A struct {
 # install
 
 ```sh
-go install github.com/mahiro72/checkdep/cmd/checkdep@latest
+go install github.com/mahiro72/checkdeps/cmd/checkdeps@latest
 ```
 
 ## Useage
 
 ```sh
-go vet -vettool=`which checkdep` pkgname
+go vet -vettool=`which checkdeps` pkgname
 ```
