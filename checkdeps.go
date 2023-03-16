@@ -1,6 +1,7 @@
 package checkdeps
 
 import (
+	"fmt"
 	"strconv"
 
 	"golang.org/x/tools/go/analysis"
@@ -46,6 +47,7 @@ func init() {
 
 func (r *Run) run(pass *analysis.Pass) (any, error) {
 	for _, f := range pass.Files {
+		fmt.Println("###",f.Name)
 		pkgName := r.pkgName(f.Name.Name)
 
 		for _, i := range f.Imports {

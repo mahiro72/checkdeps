@@ -19,4 +19,8 @@ func TestAnalyzer(t *testing.T) {
 	t.Run("usecase層がcontroller層に依存している場合、エラーが発生する", func(t *testing.T) {
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a2/...")
 	})
+
+	t.Run("3層のアーキテクチャでも依存関係に問題なければ、エラーは発生しない", func(t *testing.T) {
+		analysistest.Run(t, testdata, checkdeps.Analyzer, "a3/...")
+	})
 }
