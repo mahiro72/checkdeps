@@ -1,0 +1,14 @@
+version: "3"
+
+spec:
+  module:
+    name: "b"
+  observes: 
+    - "controller"
+    - "usecase"
+    - "repository"
+  layers:
+    controller:
+      - "usecase"
+    usecase:
+      - "repository"

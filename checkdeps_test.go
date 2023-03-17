@@ -13,18 +13,31 @@ import (
 func TestAnalyzer(t *testing.T) {
 	testdata := testutil.WithModules(t, analysistest.TestData(), nil)
 
-	t.Run("層の依存関係に問題がない", func(t *testing.T) {
+	// 通常のテスト
+	t.Run("依存関係のルールが守られている場合、特にエラーは発生しない (2層アーキテクチャ)", func(t *testing.T) {
 		t.Setenv("CHECKDEPS_YML", "./testdata/src/a/checkdeps.yml")
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a/...")
 	})
 
-	t.Run("usecase層がcontroller層に依存している場合、エラーが発生する", func(t *testing.T) {
+	t.Run("usecaseがcontrollerに依存している場合、依存関係のルールに反するのでエラーが発生する", func(t *testing.T) {
 		t.Setenv("CHECKDEPS_YML", "./testdata/src/a2/checkdeps.yml")
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a2/...")
 	})
 
-	t.Run("3層のアーキテクチャでも依存関係に問題なければ、エラーは発生しない", func(t *testing.T) {
+	t.Run("依存関係のルールが守られている場合、特にエラーは発生しない (3層アーキテクチャ)", func(t *testing.T) {
 		t.Setenv("CHECKDEPS_YML", "./testdata/src/a3/checkdeps.yml")
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a3/...")
+	})
+
+	t.Run("usecaseから触るrepositoryが抽象ではなく実体を指している場合、エラーが発生する", func(t *testing.T) {
+		t.Setenv("CHECKDEPS_YML", "./testdata/src/a4/checkdeps.yml")
+		analysistest.Run(t, testdata, checkdeps.Analyzer, "a4/...")
+	})
+
+
+	// イレギュラーなテスト
+	t.Run("repositoryをusecaseという名前でimportしたとき、依存関係のルールに反するのでエラーが発生する", func(t *testing.T) {
+		t.Setenv("CHECKDEPS_YML", "./testdata/src/b/checkdeps.yml")
+		analysistest.Run(t, testdata, checkdeps.Analyzer, "b/...")
 	})
 }

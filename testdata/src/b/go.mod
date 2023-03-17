@@ -1,4 +1,4 @@
-module a4
+module b
 
 go 1.20
 

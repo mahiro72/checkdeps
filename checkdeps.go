@@ -1,7 +1,6 @@
 package checkdeps
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"strconv"
@@ -67,11 +66,11 @@ func (r *Run) run(pass *analysis.Pass) (interface{}, error) {
 		pkgName := r.pkgName(f.Name.Name)
 
 		for _, i := range f.Imports {
-			p, _ := strconv.Unquote(i.Path.Value)
-			// TODO: error handling
+			p, err := strconv.Unquote(i.Path.Value)
+			if err != nil {
+				return nil,err
+			}
 
-			fmt.Println("#######", r.deps[pkgName], p, r.deps[pkgName].notIn(p), !r.skip(p))
-			fmt.Println(r.obs)
 			if !r.skip(p) && r.deps[pkgName].notIn(p) {
 				pass.Reportf(i.Pos(), "error: found bug in dependency import")
 			}
