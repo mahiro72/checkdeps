@@ -60,7 +60,7 @@ func (r *Run) init() {
 	r.obs = r.newObsFromYmlObserves(d.Spec.Observes)
 }
 
-func (r *Run) run(pass *analysis.Pass) (any, error) {
+func (r *Run) run(pass *analysis.Pass) (interface{}, error) {
 	r.init()
 
 	for _, f := range pass.Files {
