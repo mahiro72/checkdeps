@@ -1,21 +1,38 @@
 package checkdeps
 
 import (
+	"fmt"
 	"os"
-	"strconv"
+	// "strconv"
+
+	// "golang.org/x/tools/go/analysis"
+	"golang.org/x/tools/go/packages"
 
 	"github.com/mahiro72/checkdeps/pkg/config"
 	"github.com/mahiro72/checkdeps/pkg/yml"
-	"golang.org/x/tools/go/analysis"
+	"github.com/mahiro72/checkdeps/internal"
 )
 
 const doc = "checkdeps is check pkg dependencies"
 
+// // Analyzer is ...
+// var Analyzer = &analysis.Analyzer{
+// 	Name: "checkdeps",
+// 	Doc:  doc,
+// 	Run:  r.run,
+// }
+
 // Analyzer is ...
-var Analyzer = &analysis.Analyzer{
+var Analyzer = &internal.Analyzer{
 	Name: "checkdeps",
 	Doc:  doc,
-	Run:  r.run,
+	Config: &packages.Config{
+		Mode: packages.NeedName | packages.NeedTypes |
+			packages.NeedSyntax | packages.NeedTypesInfo |
+			packages.NeedModule,
+	},
+	SSABuilderMode: 0,
+	Run:            r.run,
 }
 
 type Run struct {
@@ -24,6 +41,9 @@ type Run struct {
 	obs   []string           // observed pkgs
 }
 
+func init() {
+	println("START!!")
+}
 type depsArr []string
 
 func (d depsArr) notIn(pkg string) bool {
@@ -39,8 +59,9 @@ var r Run
 
 func (r *Run) init() {
 	b, err := os.ReadFile(config.GetCheckDepsYmlPath("CHECKDEPS_YML"))
+	fmt.Println(os.Getwd())
 	if err != nil {
-		panic(err)
+		// panic(err)
 	}
 
 	d, err := yml.Parse(b)
@@ -53,24 +74,32 @@ func (r *Run) init() {
 	r.obs = r.newObsFromYmlObserves(d.Spec.Observes)
 }
 
-func (r *Run) run(pass *analysis.Pass) (interface{}, error) {
-	r.init()
 
-	for _, f := range pass.Files {
-		pkgName := r.pkgName(f.Name.Name)
+// func (r *Run) run(pass *analysis.Pass) (interface{}, error) {
+func (r *Run) run(pass *internal.Pass) error {
+	// r.init()
 
-		for _, i := range f.Imports {
-			p, err := strconv.Unquote(i.Path.Value)
-			if err != nil {
-				return nil,err
-			}
+	fmt.Println(pass.PkgPath)
 
-			if !r.skip(p) && r.deps[pkgName].notIn(p) {
-				pass.Reportf(i.Pos(), "error: found bug in dependency import")
-			}
-		}
-	}
-	return nil, nil
+	fmt.Println("####",pass.Package.Imports)
+	fmt.Println("@@@@@",pass.Package.GoFiles)
+
+	// for _, f := range pass.GoFiles {
+	// 	fmt.Println("$$$",f)
+	// 	pkgName := r.pkgName(f)
+
+	// 	for _, i := range pass.Imports {
+	// 		p, err := strconv.Unquote(i.Path.Value)
+	// 		if err != nil {
+	// 			return nil,err
+	// 		}
+
+	// 		if !r.skip(p) && r.deps[pkgName].notIn(p) {
+	// 			pass.Reportf(i.Pos(), "error: found bug in dependency import")
+	// 		}
+	// 	}
+	// }
+	return nil
 }
 
 // returns pkgName with gomodule name added
