@@ -34,6 +34,11 @@ func TestAnalyzer(t *testing.T) {
 		analysistest.Run(t, testdata, checkdeps.Analyzer, "a4/...")
 	})
 
+	t.Run("usecaseから触るrepositoryが抽象ではなく実体を指している場合、エラーが発生する", func(t *testing.T) {
+		t.Setenv("CHECKDEPS_YML", "./testdata/src/a5/checkdeps.yml")
+		analysistest.Run(t, testdata, checkdeps.Analyzer, "a5/...")
+	})
+
 
 	// イレギュラーなテスト
 	t.Run("repositoryをusecaseという名前でimportしたとき、依存関係のルールに反するのでエラーが発生する", func(t *testing.T) {
