@@ -1,0 +1,17 @@
+version: "3"
+
+spec:
+  module:
+    name: "a4"
+  observes: 
+    - "controller"
+    - "usecase"
+    - "repository"
+    - "domain/model"
+    - "domain/repository"
+  layers:
+    controller:
+      - "usecase"
+    usecase:
+      - "domain/repository"
+      - "domain/model"
