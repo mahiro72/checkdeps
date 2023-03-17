@@ -1,10 +1,10 @@
 package checkdeps
 
 import (
-	"io/ioutil"
 	"os"
 	"strconv"
 
+	"github.com/mahiro72/checkdeps/pkg/config"
 	"github.com/mahiro72/checkdeps/pkg/yml"
 	"golang.org/x/tools/go/analysis"
 )
@@ -38,13 +38,7 @@ func (d depsArr) notIn(pkg string) bool {
 var r Run
 
 func (r *Run) init() {
-	checkDepsPath := os.Getenv("CHECKDEPS_YML")
-	if checkDepsPath == "" {
-		panic("error: not found checkdeps.yml")
-	}
-
-	//FIXME: 非推奨かも?
-	b, err := ioutil.ReadFile(checkDepsPath)
+	b, err := os.ReadFile(config.GetCheckDepsYmlPath("CHECKDEPS_YML"))
 	if err != nil {
 		panic(err)
 	}
