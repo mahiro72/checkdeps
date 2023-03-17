@@ -20,8 +20,11 @@ jobs:
       with:
         go-version: 1.19
 
-    - name: build
+    - name: checkdeps go build
       run: go build ./...
 
-    - name: test
-      run: go test -v ./...
+    - name: checkdeps go test
+      run: go test -coverprofile=cover.out -v ./... 
+
+    - name: upload coverage to codecov
+      uses: codecov/codecov-action@v3
